@@ -1,8 +1,16 @@
+//Ajout q6.3
+import userRoutes from "./routes/userRoutes";
+
+
+
+
 import express, { type Request, type Response } from "express";
 
 const app = express();
 const PORT = 3000;
 
+//Ajoutq6.3
+app.use(userRoutes);
 
 
 //Code ajouter pour la q6.1
