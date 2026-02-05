@@ -5,7 +5,7 @@ const PORT = 3000;
 
 
 
-//Code ajouter pour la q6
+//Code ajouter pour la q6.1
 type Etudiant = { id: number; nom: string; prenom: string };
 
 const etudiants: Etudiant[] = [
@@ -15,6 +15,23 @@ const etudiants: Etudiant[] = [
 ];
 
 app.get("/api/data", (req: Request, res: Response) => res.json(etudiants));
+
+
+
+
+
+
+//Code ajouter pour la q6.2
+app.get("/api/hello/:name", (req: Request, res: Response) => {
+  const { name } = req.params;
+
+  res.json({
+    message: `Bonjour ${name}`,
+    timestamp: new Date().toISOString(),
+  });
+});
+
+
 
 
 
