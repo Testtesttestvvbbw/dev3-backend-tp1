@@ -1,13 +1,17 @@
-import sequelize from "./config/database";
-import User from "./models/User";
 import express from "express";
+import sequelize from "./config/database";
+import userRoutes from "./routes/userRoutes";
 
-const app =express();
+const app = express();
 
-sequelize.sync ()
-.then(function() {
-console.log("Connexion bdd sync ok") ;
-app.listen(3000,function(){
-console.log("Serveur lance") ;
-}) ;
-}) ;
+app.use(express.json());
+
+
+app.use("/api/users", userRoutes);
+
+sequelize.sync().then(() => {
+  console.log("Connexion bdd sync ok");
+  app.listen(3000, () =>
+    console.log("Serveur lancé sur http://localhost:3000")
+  );
+});
