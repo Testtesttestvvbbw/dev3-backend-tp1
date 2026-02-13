@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Liste des utilisateurs</title>
+</head>
+<body>
+  <h1>Utilisateurs</h1>
+  <div id="users"></div>
+
+  <script>
+    fetch("/api/users")
+      .then(response => response.json())
+      .then(data => {
+        const container = document.getElementById("users");
+        data.forEach(user => {
+          const p = document.createElement("p");
+          p.textContent = user.nom + " " + user.prenom;
+          container.appendChild(p);
+        });
+      })
+      .catch(error => console.error("Erreur:", error));
+  </script>
+</body>
+</html>

@@ -1,12 +1,16 @@
 import express from "express";
 import sequelize from "./config/database";
 import userRoutes from "./routes/userRoutes";
+import path from "path";
 
 const app = express();
 
 app.use(express.json());
 
+// Sert le dossier public
+app.use(express.static(path.join(__dirname, "../public")));
 
+// Routes API
 app.use("/api/users", userRoutes);
 
 sequelize.sync().then(() => {
