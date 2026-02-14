@@ -1,10 +1,12 @@
-console.log("script.js chargé ✅");
+console.log("script.js chargé ");
 
 const usersList = document.getElementById("usersList");
 const form = document.getElementById("userForm");
 const nomInput = document.getElementById("nomInput");
 const prenomInput = document.getElementById("prenomInput");
 const countBadge = document.getElementById("countBadge");
+const emailInput = document.getElementById("emailInput");
+
 
 async function loadUsers() {
   try {
@@ -68,5 +70,37 @@ form.addEventListener("submit", async (e) => {
     console.error("Erreur POST :", err);
   }
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const body = {
+    nom: nomInput.value,
+    prenom: prenomInput.value,
+    email: emailInput.value
+  };
+  
+  await fetch("/api/users", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body)
+  });
+  loadUsers();
+});
+
+
+
 
 loadUsers();
