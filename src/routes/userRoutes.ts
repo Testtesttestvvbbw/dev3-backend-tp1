@@ -14,20 +14,6 @@ router.get("/", async (req, res) => {
 });
 
 
-router.post("/", async (req, res) => {
-  try {
-    const { nom, prenom } = req.body;
-
-    if (!nom || !prenom) {
-      return res.status(400).json({ error: "nom et prenom requis" });
-    }
-
-    const user = await User.create({ nom, prenom });
-    res.status(201).json(user);
-  } catch (err) {
-    res.status(500).json({ error: "Erreur serveur" });
-  }
-});
 
 
 router.delete("/:id", async (req, res) => {
@@ -54,6 +40,43 @@ router.delete("/:id", async (req, res) => {
 
 
 
+
+
+
+
+
+
+
+// src/routes/userRoutes.ts
+
+router.post("/", async (req, res) => {
+  try {
+    const { nom, prenom, email } = req.body;
+
+    // 1. Validation de présence (Erreur 400)
+    if (!nom || !prenom || !email) {
+      return res.status(400).json({ error: "nom, prenom et email requis" });
+    }
+
+    // 2. Validation de format (Logique métier)
+    // On vérifie si l'email contient un '@'
+    if (!email.includes("@")) {
+      return res.status(400).json({ error: "Format email invalide" });
+    }
+
+    const user = await User.create({ nom, prenom, email });
+    res.status(201).json(user);
+
+  } catch (err: any) {
+    // 3. Gestion d'erreur spécifique (Contrainte d'unicité SQLite)
+    if (err.name === 'SequelizeUniqueConstraintError') {
+      return res.status(400).json({ error: "Cet email appartient déjà à un étudiant" });
+    }
+    
+    // 4. Erreur générique (Erreur 500)
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+});
 
 
 
