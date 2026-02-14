@@ -50,4 +50,46 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// src/routes/userRoutes.ts (Version Extension)
+router.get("/", async (req, res) => {
+  try {
+    const users = await User.findAll(); // Récupère tous les champs, email inclus
+    res.json(users);
+  } catch (err) {
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+});
+
+router.post("/", async (req, res) => {
+  try {
+    const { nom, prenom, email } = req.body; // Récupération de l'email
+
+    if (!nom || !prenom || !email) {
+      return res.status(400).json({ error: "nom, prenom et email requis" });
+    }
+
+    const user = await User.create({ nom, prenom, email });
+    res.status(201).json(user);
+  } catch (err) {
+    res.status(500).json({ error: "Erreur lors de la création (email peut-être déjà utilisé)" });
+  }
+});
+
+
+
+
 export default router;
